@@ -40,7 +40,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         //TODO: Record users voice
         println("in recordAudio")
         
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
         
         let recordingName = "my_audio.wav"
         let pathArray = [dirPath, recordingName]
@@ -59,7 +59,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
         if(flag) {
-            recordedAudio = RecordedAudio(filePathUrl: recorder.url, title: recorder.url.lastPathComponent)
+            recordedAudio = RecordedAudio(filePathUrl: recorder.url, title: recorder.url.lastPathComponent! )
             self.performSegueWithIdentifier("stopRecording", sender: recordedAudio)
         }else {
             println("Recording was not successful")
@@ -70,8 +70,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == "stopRecording"){
-            let playSoundsVC:PlaySoundsViewController = segue.destinationViewController as PlaySoundsViewController
-            let data = sender as RecordedAudio
+            let playSoundsVC:PlaySoundsViewController = segue.destinationViewController as! PlaySoundsViewController
+            let data = sender as! RecordedAudio
             playSoundsVC.receivedAudio = data
         }
     }
